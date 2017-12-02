@@ -4,62 +4,72 @@ using Dragon.DTO;
 
 namespace Dragon.Database
 {
-    public class Database
+    public static class Database
     {
-        private readonly List<Journey> _journeys;
-        private readonly List<Route> _routes;
-        private readonly List<User> _users;
+        private static readonly List<Journey> Journeys;
+        private static readonly List<Route> Routes;
+        private static readonly List<User> Users;
+        private static int _userIdCnt;
+        private static int _routeIdCnt;
+        private static int _journeyIdCnt;
 
-        public Database()
+        static Database()
         {
-            _journeys = new List<Journey>();
-            _routes = new List<Route>();
-            _users = new List<User>();
+            Journeys = new List<Journey>();
+            Routes = new List<Route>();
+            Users = new List<User>();
+            _userIdCnt = 0;
         }
 
-        public void AddUser(User user)
+        public static int GetUserIdCnt()
         {
-            _users.Add(user);
+            _userIdCnt++;
+            return _userIdCnt;
         }
 
-        public List<User> GetUsers()
+        public static void AddUser(User user)
         {
-            return _users;
+            Users.Add(user);
         }
 
-        public User GetUserById(int userId)
+        public static List<User> GetUsers()
         {
-            return _users.First(user => user.UserId == userId);
+            return Users;
         }
 
-        public void AddRoute(Route route)
+        public static User GetUserById(int userId)
         {
-            _routes.Add(route);
+            return Users.First(user => user.UserId == userId);
         }
 
-        public List<Route> GetRoutes()
+        public static void AddRoute(Route route)
         {
-            return _routes;
+            Routes.Add(route);
         }
 
-        public Route GetRouteById(int routeId)
+        public static List<Route> GetRoutes()
         {
-            return _routes.First(route => route.RouteId == routeId);
+            return Routes;
         }
 
-        public void AddJourney(Journey journey)
+        public static Route GetRouteById(int routeId)
         {
-            _journeys.Add(journey);
+            return Routes.First(route => route.RouteId == routeId);
         }
 
-        public List<Journey> GetJourney()
+        public static void AddJourney(Journey journey)
         {
-            return _journeys;
+            Journeys.Add(journey);
         }
 
-        public Journey GetJourneyById(int journeyId)
+        public static List<Journey> GetJourney()
         {
-            return _journeys.First(journey => journey.JourneyId == journeyId);
+            return Journeys;
+        }
+
+        public static Journey GetJourneyById(int journeyId)
+        {
+            return Journeys.First(journey => journey.JourneyId == journeyId);
         }
     }
 }

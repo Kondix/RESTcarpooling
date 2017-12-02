@@ -1,5 +1,9 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
+using System.Security.AccessControl;
 using Dragon.DTO;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -8,11 +12,9 @@ namespace Dragon.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private readonly Database.Database _database;
-
         public ValuesController()
         {
-            _database = new Database.Database();
+            
         }
 
         [HttpGet]
@@ -24,56 +26,57 @@ namespace Dragon.Controllers
         [HttpGet("user/all")]
         public string GetUsers()
         {
-            _database.AddUser(new User() {Name = "Konrad", UserId = 1});
-            return JsonConvert.SerializeObject(_database.GetUsers());
+            return JsonConvert.SerializeObject(Database.Database.GetUsers());
         }
 
         [HttpGet("user/{id}")]
         public string GetUserById(int userId)
         {
-            return JsonConvert.SerializeObject(_database.GetUserById(userId));
+            return JsonConvert.SerializeObject(Database.Database.GetUserById(userId));
         }
 
         [HttpGet("journey/all")]
         public string GetJourneys()
         {
-            return JsonConvert.SerializeObject(_database.GetJourney());
+            return JsonConvert.SerializeObject(Database.Database.GetJourney());
         }
 
         [HttpGet("journey/{id}")]
         public string GetJourneyById(int journeyId)
         {
-            return JsonConvert.SerializeObject(_database.GetJourneyById(journeyId));
+            return JsonConvert.SerializeObject(Database.Database.GetJourneyById(journeyId));
         }
 
         [HttpGet("route/all")]
         public string GetRoutes()
         {
-            return JsonConvert.SerializeObject(_database.GetRoutes());
+            return JsonConvert.SerializeObject(Database.Database.GetRoutes());
         }
 
         [HttpGet("route/{id}")]
         public string GetRouteById(int routeId)
         {
-            return JsonConvert.SerializeObject(_database.GetRoutes());
+            return JsonConvert.SerializeObject(Database.Database.GetRoutes());
         }
 
         [HttpPost("addRoute")]
-        public void PostRoutes([FromBody]string value)
+        public void PostRoutes([FromBody]object value)
         {
-            _database.AddRoute(JsonConvert.DeserializeObject<Route>(value));
+            Database.Database.AddRoute(JsonConvert.DeserializeObject<Route>(value.ToString()));
         }
         
         [HttpPost("addJourney")]
-        public void PostJourney([FromBody]string value)
+        public void PostJourney([FromBody]object value)
         {
-            _database.AddJourney(JsonConvert.DeserializeObject<Journey>(value));
+            Database.Database.AddJourney(JsonConvert.DeserializeObject<Journey>(value.ToString()));
         }
 
         [HttpPost("addUser")]
-        public void PostUsers([FromBody] string value)
+        public void PostUsers([FromBody]object value)
         {
-            _database.AddUser(JsonConvert.DeserializeObject<User>(value));
+            var user = JsonConvert.DeserializeObject<User>(value.ToString());
+            user.UserId = Database.Database.GetUserIdCnt();
+            Database.Database.AddUser(user);
         }
     }
 }
