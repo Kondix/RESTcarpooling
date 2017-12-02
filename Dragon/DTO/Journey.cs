@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
 namespace Dragon.DTO
@@ -7,10 +8,12 @@ namespace Dragon.DTO
     public class Journey
     {
         [DataMember]
-        public int UserId { get; set; }
+        public List<int> UsersIds { get; set; }
         [DataMember]
         public int JourneyId { get; set; }
         [DataMember]
         public bool IsDriver { get; set; }
+        [DataMember]
+        public int RouteId { get; set; }
     }
 }

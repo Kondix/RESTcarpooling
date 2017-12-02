@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.AccessControl;
 using Dragon.DTO;
@@ -38,13 +40,14 @@ namespace Dragon.Controllers
         [HttpGet("journey/all")]
         public string GetJourneys()
         {
-            return JsonConvert.SerializeObject(Database.Database.GetJourney());
+            return JsonConvert.SerializeObject(Database.Database.GetJourney().Select(WrapJourney));
         }
 
-        [HttpGet("journey/{id}")]
+        [HttpGet("journey/{journeyId}")]
         public string GetJourneyById(int journeyId)
         {
-            return JsonConvert.SerializeObject(Database.Database.GetJourneyById(journeyId));
+            Journey journey = Database.Database.GetJourneyById(journeyId);
+            return JsonConvert.SerializeObject(WrapJourney(journey));
         }
 
         [HttpGet("route/all")]
@@ -77,6 +80,16 @@ namespace Dragon.Controllers
             var user = JsonConvert.DeserializeObject<User>(value.ToString());
             user.UserId = Database.Database.GetUserIdCnt();
             Database.Database.AddUser(user);
+        }
+
+        private JourneyWrapper WrapJourney(Journey journey)
+        {
+            JourneyWrapper wrapper = new JourneyWrapper();
+            wrapper.IsDriver = journey.IsDriver;
+            wrapper.JourneyId = journey.JourneyId;
+            wrapper.Route = Database.Database.GetRouteById(journey.RouteId);
+            wrapper.Users = journey.UsersIds.Select(Database.Database.GetUserById).ToList();
+            return wrapper;
         }
     }
 }
