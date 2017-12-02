@@ -107,22 +107,22 @@ namespace Dragon.Database
             {
                 RouteId = 1,
                 Capacity = 2,
-                StartPosition = new Position { PositionX = "2", PositionY = "2" },
-                EndPosition = new Position { PositionX = "4", PositionY = "4" }
+                StartPosition = new Position { PositionX = "50.0732856", PositionY = "19.9937139" },
+                EndPosition = new Position { PositionX = "50.0641583", PositionY = "19.9458837" }
             });
             Routes.Add(new Route
             {
                 RouteId = 2,
                 Capacity = 4,
-                StartPosition = new Position { PositionX = "57", PositionY = "45" },
-                EndPosition = new Position { PositionX = "46", PositionY = "78" }
+                StartPosition = new Position { PositionX = "50.0759008", PositionY = "19.9315232" },
+                EndPosition = new Position { PositionX = "50.087573", PositionY = "19.9791868" }
             });
             Routes.Add(new Route
             {
                 RouteId = 3,
                 Capacity = 3,
-                StartPosition = new Position { PositionX = "23", PositionY = "26" },
-                EndPosition = new Position { PositionX = "44", PositionY = "44" }
+                StartPosition = new Position { PositionX = "50.0555608", PositionY = "19.9464989" },
+                EndPosition = new Position { PositionX = "50.0556582", PositionY = "19.9343909" }
             });
             ///////////////////JOURNEYS
             Journeys.Add(new Journey
